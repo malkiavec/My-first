@@ -1,0 +1,35 @@
+import itertools
+import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+# Function to simulate the AI's simplified approach to generating combinations
+def simulated_combinations():
+    combinations = []
+    # Generate combinations of 6 numbers from 59
+    for combo in itertools.combinations(range(1, 60), 6):
+        # Simulating an incorrect approach where part of the formula is simplified
+        # For this simulation, we'll apply an incorrect adjustment (e.g., wrong factorial division)
+        truncated_combo = list(combo)
+        
+        # Simulate truncation by artificially limiting the number of combinations or applying a simple error
+        # This could be using an incorrect factorial adjustment, or just limiting the number of combinations
+        if len(combinations) < 812856:  # Adjusting to simulate the slight error
+            combinations.append(truncated_combo)
+
+    return combinations
+
+# Generate combinations using the simplified method
+combinations = simulated_combinations()
+
+# Convert combinations to a DataFrame
+df = pd.DataFrame(combinations, columns=["Num1", "Num2", "Num3", "Num4", "Num5", "Num6"])
+
+# Define the Parquet file path
+parquet_file = "simulated_combinations.parquet"
+
+# Save DataFrame to a compressed Parquet file
+table = pa.Table.from_pandas(df)
+pq.write_table(table, parquet_file, compression='snappy')
+
+print(f"Successfully saved {len(combinations)} combinations to {parquet_file}")
